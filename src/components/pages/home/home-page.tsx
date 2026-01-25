@@ -1,7 +1,6 @@
 import { FinalSection } from '@/components/sections/final'
 import { GameInfo } from '@/components/shared/game-info'
 // import { useLaunchParams, useRawInitData } from '@tma.js/sdk-react'
-import { SelectCitySection } from '@/components/sections/select-city'
 import { StartSection } from '@/components/sections/start'
 import { useCurrentSection } from '../../../store/useCurrentSection'
 import { CardsContent } from '../../sections/CardsContent/CardsContent'
@@ -17,10 +16,6 @@ export const HomePage = () => {
 		return <StartSection />
 	}
 
-	if (currentSection === 'select') {
-		return <SelectCitySection />
-	}
-
 	if (currentSection === 'final') {
 		return <FinalSection />
 	}
@@ -28,7 +23,7 @@ export const HomePage = () => {
 	return (
 		<main className={styles.main}>
 			<CardsContent
-				showNextSection={() => setCurrentSection('select')}
+				showNextSection={() => setCurrentSection('final')}
 				isAnimationStarted
 				isFinalSection={false}
 			/>

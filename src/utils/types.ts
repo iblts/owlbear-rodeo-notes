@@ -1,4 +1,4 @@
-export type SelectedSectionType = 'main' | 'cards' | 'select' | 'final' // типы секций
+export type SelectedSectionType = 'main' | 'cards' | 'final' // типы секций
 export type CardViewType = 'default' | 'stopList' | 'wishList' // типы видов карточек
 export type CardViewVariantType = 'stopList' | 'wishList' | 'next' // типы видов кнопок
 export type SwipeDirectionType = 'left' | 'right' // типы направлений свайпа
