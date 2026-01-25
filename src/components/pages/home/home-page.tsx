@@ -47,7 +47,7 @@ export const HomePage = () => {
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const text = e.target.value
 		setValue(text)
-		localStorage.setItem(METADATA_KEY, JSON.stringify(text))
+		localStorage.setItem(METADATA_KEY, text)
 	}
 
 	return (
