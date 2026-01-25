@@ -5,11 +5,18 @@
 	display: grid;
 	gap: 16px;
 	overflow-y: auto;
+	position: relative;
 }
 
 .input {
 	padding: 10px 12px;
 	font-size: 16px;
+	background: transparent;
+	color: $primary-text;
+
+	&:focus-visible {
+		outline: 2px solid #2d2c38;
+	}
 }
 
 .preview {
@@ -27,4 +34,22 @@
 	color: $primary-text;
 	font-weight: 500;
 	cursor: pointer;
+}
+
+.toggleButton {
+	width: 28px;
+	height: 28px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 4px;
+	background: #2d2c38;
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	cursor: pointer;
+}
+
+.toggleButton:hover {
+	background: #3a3749;
 }

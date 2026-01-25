@@ -61,7 +61,7 @@ export const HomePage = () => {
 					setView(prev => (prev === 'editor' ? 'preview' : 'editor'))
 				}
 			>
-				{view === 'editor' ? <IconCheck /> : <IconEdit />}
+				{view === 'editor' ? <IconCheck size={16} /> : <IconEdit size={16} />}
 			</button>
 			{view === 'editor' && (
 				<textarea
