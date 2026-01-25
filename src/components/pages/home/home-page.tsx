@@ -40,9 +40,7 @@ function splitDiceText(text: string) {
 export const HomePage = () => {
 	const [view, setView] = useState<'editor' | 'preview'>('preview')
 	const handleRollDice = useDice()
-	const [value, setValue] = useState(
-		JSON.parse(localStorage.getItem(METADATA_KEY) || ''),
-	)
+	const [value, setValue] = useState(localStorage.getItem(METADATA_KEY) || '')
 
 	const previewParts = useMemo(() => splitDiceText(value), [value])
 
