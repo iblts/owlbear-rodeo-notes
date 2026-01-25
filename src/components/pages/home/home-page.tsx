@@ -54,15 +54,22 @@ export const HomePage = () => {
 
 	return (
 		<main className={styles.main}>
-			<button
-				type='button'
-				className={styles.toggleButton}
-				onClick={() =>
-					setView(prev => (prev === 'editor' ? 'preview' : 'editor'))
-				}
-			>
-				{view === 'editor' ? <IconCheck size={16} /> : <IconEdit size={16} />}
-			</button>
+			<header className={styles.header}>
+				<p className={styles.title}>Заметки</p>
+				<button
+					type='button'
+					className={styles.toggleButton}
+					onClick={() =>
+						setView(prev => (prev === 'editor' ? 'preview' : 'editor'))
+					}
+				>
+					{view === 'editor' ? (
+						<IconCheck size={16} fill='#fff' />
+					) : (
+						<IconEdit size={16} fill='#fff' />
+					)}
+				</button>
+			</header>
 			{view === 'editor' && (
 				<textarea
 					className={styles.input}
