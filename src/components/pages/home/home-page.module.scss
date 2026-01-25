@@ -3,7 +3,7 @@
 .main {
 	padding: 8px 16px 16px;
 	display: grid;
-	gap: 16px;
+	gap: 8px;
 	overflow-y: auto;
 	position: relative;
 	max-height: 100vh;
@@ -15,6 +15,7 @@
 	background: transparent;
 	color: $primary-text;
 	border-radius: 12px;
+	height: 80vh;
 
 	&:focus-visible {
 		outline: 2px solid #2d2c38;
