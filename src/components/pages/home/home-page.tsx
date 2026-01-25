@@ -1,8 +1,7 @@
 'use client'
 
 import { useDice } from '@/hooks/useDice'
-import { checkIsObject } from '@/utils/helpers'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import styles from './home-page.module.scss'
 
 const DICE_REGEX = /\b\d*d\d+(?:k[hl]\d+|d[hl]\d+)?(?:[+-]\d+)?\b/gi
@@ -38,22 +37,11 @@ function splitDiceText(text: string) {
 
 export const HomePage = () => {
 	const handleRollDice = useDice()
-	const [value, setValue] = useState('')
+	const [value, setValue] = useState(
+		JSON.parse(localStorage.getItem(METADATA_KEY) || ''),
+	)
 
 	const previewParts = useMemo(() => splitDiceText(value), [value])
-
-	useEffect(() => {
-		const fetchMetadata = async () => {
-			const metadata = JSON.parse(localStorage.getItem(METADATA_KEY) || '')
-			if (checkIsObject(metadata) && METADATA_KEY in metadata) {
-				const text = metadata
-				if (typeof text === 'string') {
-					setValue(text)
-				}
-			}
-		}
-		fetchMetadata()
-	}, [])
 
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const text = e.target.value
