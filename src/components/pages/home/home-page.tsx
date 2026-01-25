@@ -1,5 +1,7 @@
 'use client'
 
+import { IconCheck } from '@/components/ui/icons/Check'
+import { IconEdit } from '@/components/ui/icons/Edit'
 import { useDice } from '@/hooks/useDice'
 import { useMemo, useState } from 'react'
 import styles from './home-page.module.scss'
@@ -36,6 +38,7 @@ function splitDiceText(text: string) {
 }
 
 export const HomePage = () => {
+	const [view, setView] = useState<'editor' | 'preview'>('preview')
 	const handleRollDice = useDice()
 	const [value, setValue] = useState(
 		JSON.parse(localStorage.getItem(METADATA_KEY) || ''),
@@ -51,29 +54,42 @@ export const HomePage = () => {
 
 	return (
 		<main className={styles.main}>
-			<textarea
-				className={styles.input}
-				value={value}
-				onChange={handleChange}
-				placeholder='Например: атака d20+5, попадание: d6+2 урона или 2d20kh1 - для броска 1к20 с преимуществом'
-			/>
+			<button
+				type='button'
+				className={styles.toggleButton}
+				onClick={() =>
+					setView(prev => (prev === 'editor' ? 'preview' : 'editor'))
+				}
+			>
+				{view === 'editor' ? <IconCheck /> : <IconEdit />}
+			</button>
+			{view === 'editor' && (
+				<textarea
+					className={styles.input}
+					value={value}
+					onChange={handleChange}
+					placeholder='Например: атака d20+5, попадание: d6+2 урона или 2d20kh1 - для броска 1к20 с преимуществом'
+				/>
+			)}
 
-			<div className={styles.preview}>
-				{previewParts.map((part, idx) => {
-					if (part.type === 'text') return <span key={idx}>{part.value}</span>
+			{view === 'preview' && (
+				<div className={styles.preview} onDoubleClick={() => setView('editor')}>
+					{previewParts.map((part, idx) => {
+						if (part.type === 'text') return <span key={idx}>{part.value}</span>
 
-					return (
-						<button
-							key={idx}
-							type='button'
-							className={styles.dice}
-							onClick={() => handleRollDice(part.value)}
-						>
-							{part.value}
-						</button>
-					)
-				})}
-			</div>
+						return (
+							<button
+								key={idx}
+								type='button'
+								className={styles.dice}
+								onClick={() => handleRollDice(part.value)}
+							>
+								{part.value}
+							</button>
+						)
+					})}
+				</div>
+			)}
 		</main>
 	)
 }
