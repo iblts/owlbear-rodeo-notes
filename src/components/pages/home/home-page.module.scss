@@ -15,7 +15,7 @@
 	background: transparent;
 	color: $primary-text;
 	border-radius: 12px;
-	height: 90vh;
+	height: calc(100vh - 32px - 8px);
 	resize: vertical;
 
 	&:focus-visible {
