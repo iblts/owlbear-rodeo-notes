@@ -2,7 +2,6 @@
 
 import { useDice } from '@/hooks/useDice'
 import { checkIsObject } from '@/utils/helpers'
-import OBR from '@owlbear-rodeo/sdk'
 import { useEffect, useMemo, useState } from 'react'
 import styles from './home-page.module.scss'
 
@@ -45,9 +44,9 @@ export const HomePage = () => {
 
 	useEffect(() => {
 		const fetchMetadata = async () => {
-			const metadata = await OBR.player.getMetadata()
+			const metadata = JSON.parse(localStorage.getItem(METADATA_KEY) || '')
 			if (checkIsObject(metadata) && METADATA_KEY in metadata) {
-				const text = metadata[METADATA_KEY]
+				const text = metadata
 				if (typeof text === 'string') {
 					setValue(text)
 				}
@@ -59,7 +58,7 @@ export const HomePage = () => {
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const text = e.target.value
 		setValue(text)
-		OBR.player.setMetadata({ [METADATA_KEY]: text })
+		localStorage.setItem(METADATA_KEY, JSON.stringify(text))
 	}
 
 	return (
