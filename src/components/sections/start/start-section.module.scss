@@ -1,0 +1,55 @@
+@use '@/utils/styles/_variables.scss' as *;
+
+.section {
+	height: 100dvh;
+	padding: 20px 20px 36px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: $secondary;
+	text-align: center;
+}
+
+.title {
+	font-size: 36px;
+	font-weight: 500;
+	white-space-collapse: break-spaces;
+	margin-top: 30px;
+}
+
+.info {
+	margin-top: auto;
+	position: relative;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.text {
+	color: $secondary;
+}
+
+.actions {
+	display: flex;
+	gap: 13.5px;
+}
+
+.startButton {
+	flex-grow: 0;
+}
+
+.helpButton {
+	flex-grow: 1;
+	flex-shrink: 0;
+}
+
+.floor {
+	position: absolute;
+	width: 100%;
+	height: 35vh;
+	background-color: $primary;
+	left: 0;
+	bottom: 0;
+	z-index: 0;
+}

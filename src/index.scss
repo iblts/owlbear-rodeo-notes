@@ -1,0 +1,14 @@
+@use '@/utils/styles/_variables.scss' as *;
+
+body {
+	overflow: hidden;
+	font-family: 'Roboto', sans-serif;
+	background: #acef81;
+	color: $primary-text;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
