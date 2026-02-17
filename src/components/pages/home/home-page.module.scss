@@ -64,8 +64,15 @@
 	background: #2d2c38;
 	cursor: pointer;
 	border: 1px solid $secondary-text;
+	position: fixed;
+	top: 12px;
+	right: 16px;
 }
 
 .toggleButton:hover {
 	background: #3a3749;
+}
+
+.underline {
+	text-decoration: underline;
 }

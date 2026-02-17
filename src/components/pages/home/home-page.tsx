@@ -6,32 +6,57 @@ import { useDice } from '@/hooks/useDice'
 import { useMemo, useState } from 'react'
 import styles from './home-page.module.scss'
 
-const DICE_REGEX = /\b\d*d\d+(?:k[hl]\d+|d[hl]\d+)?(?:[+-]\d+)?\b/gi
+const FORMAT_REGEX =
+	/\*\*([^*]+)\*\*|__([^_]+)__|\b\d*d\d+(?:k[hl]\d+|d[hl]\d+)?(?:[+-]\d+)?\b/gi
 const METADATA_KEY = 'com.extentions.notes/metadata'
 
-function splitDiceText(text: string) {
-	const parts: Array<
-		{ type: 'text'; value: string } | { type: 'dice'; value: string }
-	> = []
+type Part =
+	| { type: 'text'; value: string }
+	| { type: 'dice'; value: string }
+	| { type: 'bold'; value: string }
+	| { type: 'underline'; value: string }
+
+function splitFormattedText(text: string): Part[] {
+	const parts: Part[] = []
 
 	let lastIndex = 0
-	const matches = [...text.matchAll(DICE_REGEX)]
 
-	for (const match of matches) {
+	for (const match of text.matchAll(FORMAT_REGEX)) {
 		const start = match.index ?? 0
 		const full = match[0]
 
 		if (start > lastIndex) {
-			parts.push({ type: 'text', value: text.slice(lastIndex, start) })
+			parts.push({
+				type: 'text',
+				value: text.slice(lastIndex, start),
+			})
 		}
 
-		parts.push({ type: 'dice', value: full })
+		if (full.startsWith('**')) {
+			parts.push({
+				type: 'bold',
+				value: match[1],
+			})
+		} else if (full.startsWith('__')) {
+			parts.push({
+				type: 'underline',
+				value: match[2],
+			})
+		} else {
+			parts.push({
+				type: 'dice',
+				value: full,
+			})
+		}
 
 		lastIndex = start + full.length
 	}
 
 	if (lastIndex < text.length) {
-		parts.push({ type: 'text', value: text.slice(lastIndex) })
+		parts.push({
+			type: 'text',
+			value: text.slice(lastIndex),
+		})
 	}
 
 	return parts
@@ -42,7 +67,7 @@ export const HomePage = () => {
 	const handleRollDice = useDice()
 	const [value, setValue] = useState(localStorage.getItem(METADATA_KEY) || '')
 
-	const previewParts = useMemo(() => splitDiceText(value), [value])
+	const previewParts = useMemo(() => splitFormattedText(value), [value])
 
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const text = e.target.value
@@ -82,16 +107,27 @@ export const HomePage = () => {
 					{previewParts.map((part, idx) => {
 						if (part.type === 'text') return <span key={idx}>{part.value}</span>
 
-						return (
-							<button
-								key={idx}
-								type='button'
-								className={styles.dice}
-								onClick={() => handleRollDice(part.value)}
-							>
-								{part.value}
-							</button>
-						)
+						if (part.type === 'bold')
+							return <strong key={idx}>{part.value}</strong>
+
+						if (part.type === 'underline')
+							return (
+								<span key={idx} className={styles.underline}>
+									{part.value}
+								</span>
+							)
+
+						if (part.type === 'dice')
+							return (
+								<button
+									key={idx}
+									type='button'
+									className={styles.dice}
+									onClick={() => handleRollDice(part.value)}
+								>
+									{part.value}
+								</button>
+							)
 					})}
 				</div>
 			)}
